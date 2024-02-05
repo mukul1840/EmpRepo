@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.nio.file.Path;
+
 @Entity
 @Data
 public class Employee {
@@ -37,4 +39,11 @@ public class Employee {
         return this.activeStatus;
     }
 
+    public void setDepartment(Department newDepartment) {
+        this.department=newDepartment;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
 }

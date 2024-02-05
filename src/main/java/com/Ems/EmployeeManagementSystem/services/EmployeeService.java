@@ -26,8 +26,18 @@ public class EmployeeService {
     public List<Employee> getAllActiveEmployees() {
         return employeeRepository.findByActiveStatusTrue();
     }
-    public Employee createEmployee(Employee employee)
-    {
+    public Employee addEmployee(Employee employee) {
+        Optional<Department> existingDepartment = departmentRepository.findByName(employee.getDepartment().getName());
+
+        if (existingDepartment != null) {
+            employee.setDepartment(existingDepartment.get());
+        } else {
+            Department newDepartment = new Department();
+            newDepartment.setName(employee.getDepartment().getName());
+            newDepartment.setActiveStatus(true); // You may set other properties as needed
+            departmentRepository.save(newDepartment);
+            employee.setDepartment(newDepartment);
+        }
         return employeeRepository.save(employee);
     }
 

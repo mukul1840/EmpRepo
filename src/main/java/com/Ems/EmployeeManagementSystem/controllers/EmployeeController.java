@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
-//this controller is for Employee
 @RestController
 @RequestMapping("/ems")
 public class EmployeeController {
@@ -40,7 +39,7 @@ public class EmployeeController {
     }
     @PostMapping("/create")
     public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+        return employeeService.addEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
