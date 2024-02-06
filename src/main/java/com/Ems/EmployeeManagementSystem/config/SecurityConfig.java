@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 @Configuration
 public class SecurityConfig {
 
@@ -23,7 +22,7 @@ public class SecurityConfig {
 
 
 
-//
+
 @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -61,9 +60,6 @@ public class SecurityConfig {
 //    http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 //    return http.build();
 //}
-
-
-
 
 
 }
