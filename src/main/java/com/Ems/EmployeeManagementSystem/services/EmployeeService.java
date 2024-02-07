@@ -34,7 +34,7 @@ public class EmployeeService {
         } else {
             Department newDepartment = new Department();
             newDepartment.setName(employee.getDepartment().getName());
-            newDepartment.setActiveStatus(true); // You may set other properties as needed
+            newDepartment.setActiveStatus(true);
             departmentRepository.save(newDepartment);
             employee.setDepartment(newDepartment);
         }
@@ -43,7 +43,6 @@ public class EmployeeService {
 
     public Employee getEmployeeById(Long id) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
-
         if (optionalEmployee.isPresent()) {
             return optionalEmployee.get();
         } else {

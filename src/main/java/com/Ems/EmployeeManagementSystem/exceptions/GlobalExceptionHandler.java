@@ -1,6 +1,5 @@
 package com.Ems.EmployeeManagementSystem.exceptions;
 
-import com.Ems.EmployeeManagementSystem.entities.Department;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
