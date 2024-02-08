@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,41 +21,24 @@ public class SecurityConfig {
     private JwtAuthenticationFilter filter;
 @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .authorizeRequests(requests -> requests
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/auth/login")).permitAll()
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/api/**", HttpMethod.GET.toString())).hasAnyRole("USER_ROLE", "ADMIN_ROLE")
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/api/**", HttpMethod.POST.toString())).hasRole("ADMIN_ROLE")
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/api/**", HttpMethod.PUT.toString())).hasRole("ADMIN_ROLE")
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/api/**", HttpMethod.DELETE.toString())).hasRole("ADMIN_ROLE")
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/ems")).authenticated()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+             http.csrf(csrf -> csrf.disable())
+             .authorizeHttpRequests((authorize) -> {
+                System.out.println("Check User Role Here ---");
+                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER");
+                    authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
+        authorize.requestMatchers("/auth/login").permitAll();
+        authorize.anyRequest().authenticated();
+    }).httpBasic(Customizer.withDefaults());
 
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling( exception -> exception
+            .authenticationEntryPoint(point));
+
+        http.addFilterBefore( filter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
-    }
-//    @Bean
-//public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//    http.csrf(csrf -> csrf.disable())
-//            .authorizeRequests().
-//            requestMatchers("/ems").authenticated().requestMatchers("/auth/login").permitAll()
-//            .anyRequest()
-//            .authenticated()
-//            .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//    http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-//    return http.build();
-//}
-
+}
 
 }

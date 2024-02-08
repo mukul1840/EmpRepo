@@ -17,11 +17,13 @@ class AppConfig {
     public UserDetailsService userDetailsService() {
         UserDetails normalUserDetails = User.builder().
                 username("Mukul@gmail.com")
-                .password(passwordEncoder().encode("Mukul123")).roles("USER_ROLE").
+                .password(passwordEncoder().encode("Mukul123"))
+                .roles("USER").
                 build();
         UserDetails adminUserDetails = User.builder().
                 username("itt@gmail.com")
-                .password(passwordEncoder().encode("itt123")).roles("ADMIN_ROLE").
+                .password(passwordEncoder().encode("itt123"))
+                .roles("ADMIN").
                 build();
         return new InMemoryUserDetailsManager(normalUserDetails,adminUserDetails);
     }
