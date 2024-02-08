@@ -5,8 +5,6 @@ import lombok.*;
 public class JwtResponse {
     private String jwtToken;
     private String userName;
-
-    // private constructor to force the use of the builder
     private JwtResponse(String jwtToken, String userName) {
         this.jwtToken = jwtToken;
         this.userName = userName;
@@ -19,19 +17,16 @@ public class JwtResponse {
     public String getUserName() {
         return userName;
     }
-
-    // Manual builder method
     public static JwtResponseBuilder builder() {
         return new JwtResponseBuilder();
     }
 
-    // Inner builder class
     public static class JwtResponseBuilder {
         private String jwtToken;
         private String userName;
 
         private JwtResponseBuilder() {
-            // private constructor to force the use of the outer class builder() method
+
         }
 
         public JwtResponseBuilder jwtToken(String jwtToken) {

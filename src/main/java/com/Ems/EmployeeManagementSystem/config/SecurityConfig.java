@@ -14,15 +14,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-
     @Autowired
     private JwtAuthenticationEntryPoint point;
     @Autowired
     private JwtAuthenticationFilter filter;
-
-
-
-
 @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
