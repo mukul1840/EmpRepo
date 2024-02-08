@@ -20,25 +20,21 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter filter;
 @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-             http.csrf(csrf -> csrf.disable())
-             .authorizeHttpRequests((authorize) -> {
-                System.out.println("Check User Role Here ---");
-                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER");
-                    authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
-        authorize.requestMatchers("/auth/login").permitAll();
-        authorize.anyRequest().authenticated();
-    }).httpBasic(Customizer.withDefaults());
-
-        http.exceptionHandling( exception -> exception
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests((authorize) -> {
+                authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
+                authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
+                authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
+                authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER");
+                authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
+                authorize.requestMatchers("/auth/login").permitAll();
+                authorize.anyRequest().authenticated();
+            }).httpBasic(Customizer.withDefaults());
+    http.exceptionHandling(exception -> exception
             .authenticationEntryPoint(point));
-
-        http.addFilterBefore( filter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
 }
 
 }
