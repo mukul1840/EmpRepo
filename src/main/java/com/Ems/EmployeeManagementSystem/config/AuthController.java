@@ -29,16 +29,11 @@ public class AuthController {
     private AuthenticationManager manager;
     @Autowired
     private JwtHelper helper;
-
-    //private Logger logger = LoggerFactory.getLogger(AuthController.class);
-
-
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-     this.doAuthenticate(request.getEmail(), request.getPassword());
-     UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-     System.out.println(userDetails);
-        String token = this.helper.generateToken(userDetails,userDetails.getAuthorities());
+        this.doAuthenticate(request.getEmail(), request.getPassword());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+        String token = this.helper.generateToken(userDetails);
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
@@ -51,7 +46,8 @@ public class AuthController {
     private void doAuthenticate(String email, String password) {
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
-        try {            manager.authenticate(authentication);
+        try {
+            manager.authenticate(authentication);
           } catch (BadCredentialsException e) {
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }

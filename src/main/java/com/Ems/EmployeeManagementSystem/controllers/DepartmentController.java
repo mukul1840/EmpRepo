@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @RestController
@@ -17,7 +15,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/listOfDepartments")
+    @GetMapping("/getall")
     public List<Department> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
@@ -32,7 +30,7 @@ public class DepartmentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteDepartment(@PathVariable Long id) {
         try {
             departmentService.deleteDepartment(id);

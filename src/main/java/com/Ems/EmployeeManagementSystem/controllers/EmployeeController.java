@@ -5,14 +5,15 @@ import com.Ems.EmployeeManagementSystem.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+
 @RestController
 @RequestMapping("/ems")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
     @GetMapping("/employees")
     public ResponseEntity<?> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
@@ -23,6 +24,7 @@ public class EmployeeController {
             return ResponseEntity.ok(employees);
         }
     }
+
     @GetMapping("/employees/active")
     public ResponseEntity<List<Employee>> getAllActiveEmployees() {
         List<Employee> activeEmployees = employeeService.getAllActiveEmployees();
@@ -34,23 +36,24 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/employee/{id}")
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/employee/create")
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/employee/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.ok("Employee deleted successfully");
     }
-    @PutMapping("/{id}")
+
+    @PutMapping("/employee/update{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         Employee updated = employeeService.updateEmployee(id, updatedEmployee);
 

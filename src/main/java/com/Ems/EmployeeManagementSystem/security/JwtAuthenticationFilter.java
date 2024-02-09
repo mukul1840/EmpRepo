@@ -24,7 +24,7 @@ import java.util.Collection;
 
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
     @Autowired
@@ -67,12 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         } else {
             logger.info("Invalid Header Value !! ");
         }
-
-
-        //
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-
             //fetch user detail from username
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
@@ -81,14 +76,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 //set the authentication
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 Collection<GrantedAuthority> authorities = authentication.getAuthorities();
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-//                Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
-//                System.out.println("username -"+authentication1.getName());
-//                System.out.println("Authorities -"+authentication1.getAuthorities());
-
-
             } else {
                 logger.info("Validation fails !!");
             }

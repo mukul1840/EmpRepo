@@ -18,9 +18,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Autowired
-    private JwtAuthenticationEntryPoint point;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
-    private JwtAuthenticationFilter filter;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -34,8 +34,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 authorize.anyRequest().authenticated();
             }).httpBasic(Customizer.withDefaults());
     http.exceptionHandling(exception -> exception
-            .authenticationEntryPoint(point));
-    http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint));
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
 }
 
