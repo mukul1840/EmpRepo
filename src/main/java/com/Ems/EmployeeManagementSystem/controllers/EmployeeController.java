@@ -5,6 +5,7 @@ import com.Ems.EmployeeManagementSystem.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 @RestController
@@ -37,10 +38,12 @@ public class EmployeeController {
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
+
     @PostMapping("/create")
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {

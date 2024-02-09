@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 import static com.Ems.EmployeeManagementSystem.jwtModels.JwtResponse.*;
 
 @RestController
@@ -36,7 +38,7 @@ public class AuthController {
      this.doAuthenticate(request.getEmail(), request.getPassword());
      UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
      System.out.println(userDetails);
-        String token = this.helper.generateToken(userDetails);
+        String token = this.helper.generateToken(userDetails,userDetails.getAuthorities());
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
@@ -49,8 +51,7 @@ public class AuthController {
     private void doAuthenticate(String email, String password) {
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
-        try {
-            manager.authenticate(authentication);
+        try {            manager.authenticate(authentication);
           } catch (BadCredentialsException e) {
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }

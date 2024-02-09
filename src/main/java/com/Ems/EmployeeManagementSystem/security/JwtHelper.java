@@ -2,12 +2,11 @@ package com.Ems.EmployeeManagementSystem.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -46,8 +45,13 @@ public class JwtHelper {
     }
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails,Collection<? extends GrantedAuthority> roles) {
         Map<String, Object> claims = new HashMap<>();
+        List<String> roleValues = new ArrayList<>();
+        for (GrantedAuthority role : roles) {
+            roleValues.add(role.getAuthority());
+        }
+        claims.put("roles",roleValues);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
