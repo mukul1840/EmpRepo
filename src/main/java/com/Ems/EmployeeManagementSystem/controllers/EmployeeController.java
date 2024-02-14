@@ -17,7 +17,6 @@ public class EmployeeController {
     @GetMapping("/employees")
     public ResponseEntity<?> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
-
         if (employees.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No employees found");
         } else {
@@ -28,7 +27,6 @@ public class EmployeeController {
     @GetMapping("/employees/active")
     public ResponseEntity<List<Employee>> getAllActiveEmployees() {
         List<Employee> activeEmployees = employeeService.getAllActiveEmployees();
-
         if (activeEmployees.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
@@ -56,7 +54,6 @@ public class EmployeeController {
     @PutMapping("/employee/update{id}")
     public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         String updated = employeeService.updateEmployee(id, updatedEmployee);
-
         if (updated== null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee Not Found");
         } else {

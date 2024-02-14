@@ -34,7 +34,6 @@ public class AuthController {
         this.doAuthenticate(request.getEmail(), request.getPassword());
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
-
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
                 .userName(userDetails.getUsername())
@@ -44,14 +43,12 @@ public class AuthController {
     }
 
     private void doAuthenticate(String email, String password) {
-
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
         try {
             manager.authenticate(authentication);
-          } catch (BadCredentialsException e) {
+        } catch (BadCredentialsException e) {
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }
-
     }
 
     @ExceptionHandler(BadCredentialsException.class)
