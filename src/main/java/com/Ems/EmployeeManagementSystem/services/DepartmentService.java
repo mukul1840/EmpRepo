@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import  java.util.*;
+import java.util.*;
+
 @Service
 public class DepartmentService {
     @Autowired
@@ -25,7 +26,6 @@ public class DepartmentService {
 
     public Department createDepartment(Department department) {
         String departmentName = department.getName();
-        // Check if a department with the given name already exists
         if (departmentRepository.findByName(departmentName).isPresent()) {
             throw new DepartmentNameAlreadyExistsException("Department with name " + departmentName + " already exists");
         }
@@ -34,14 +34,12 @@ public class DepartmentService {
 
     public void deleteDepartment(Long id) {
         Department department = departmentRepository.findById(id)
-                . orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
 
-        // Check if the department has associated employees
         if (employeeRepository.existsByDepartment_dId(id)) {
             throw new RuntimeException("Department contains employees, cannot be deleted");
         }
 
-        // Delete the department if no associated employees
         departmentRepository.delete(department);
     }
 }
