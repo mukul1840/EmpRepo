@@ -54,13 +54,13 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/update{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
-        Employee updated = employeeService.updateEmployee(id, updatedEmployee);
+    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+        String updated = employeeService.updateEmployee(id, updatedEmployee);
 
-        if (updated == null) {
-            return ResponseEntity.notFound().build();
+        if (updated== null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee Not Found");
         } else {
-            return ResponseEntity.ok(updated);
+            return ResponseEntity.ok("Employee Details Updated SuccessFully");
         }
     }
 

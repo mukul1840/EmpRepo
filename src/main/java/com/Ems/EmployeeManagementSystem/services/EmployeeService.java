@@ -56,12 +56,13 @@ public class EmployeeService {
         employee.setActiveStatus(false);
         employeeRepository.save(employee);
     }
-    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+    public String updateEmployee(Long id, Employee updatedEmployee) {
         Employee existingEmployee = employeeRepository.findById(id).orElse(null);
 
         if (existingEmployee != null) {
             BeanUtils.copyProperties(updatedEmployee, existingEmployee, "e_id");
-            return employeeRepository.save(existingEmployee);
+            employeeRepository.save(existingEmployee);
+            return "Employee Details Updated SuccessFully";
         } else {
             return null;
         }

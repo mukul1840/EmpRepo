@@ -24,7 +24,7 @@ public class DepartmentService {
     }
 
     public Department createDepartment(Department department) {
-        String departmentName = department.getDname();
+        String departmentName = department.getName();
         // Check if a department with the given name already exists
         if (departmentRepository.findByName(departmentName).isPresent()) {
             throw new DepartmentNameAlreadyExistsException("Department with name " + departmentName + " already exists");

@@ -36,9 +36,9 @@ public class Department {
         return employees;
     }
 
-    public String getDname() {
-        return name;
-    }
+//    public String getDname() {
+//        return name;
+//    }
 
     public String getName() {
         return name;
