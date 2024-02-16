@@ -28,7 +28,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .authorizeHttpRequests((authorize) -> {
                 authorize.requestMatchers(HttpMethod.POST, "/ems/**").hasRole("ADMIN");
                 authorize.requestMatchers(HttpMethod.PUT, "/ems/**").hasRole("ADMIN");
-                authorize.requestMatchers(HttpMethod.DELETE, "/ems/**").hasRole("ADMIN");
+                authorize.requestMatchers(HttpMethod.DELETE, "/ems/**", "/departments/**").hasRole("ADMIN");
                 authorize.requestMatchers(HttpMethod.GET, "/ems/**").hasAnyRole("ADMIN", "USER");
                 authorize.requestMatchers("/auth/login").permitAll();
                 authorize.anyRequest().authenticated();
@@ -38,7 +38,4 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
 }
-
-
-
 }

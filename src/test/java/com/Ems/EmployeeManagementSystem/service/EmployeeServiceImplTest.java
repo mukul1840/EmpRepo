@@ -3,7 +3,7 @@ package com.Ems.EmployeeManagementSystem.service;
 import com.Ems.EmployeeManagementSystem.entities.Department;
 import com.Ems.EmployeeManagementSystem.entities.Employee;
 import com.Ems.EmployeeManagementSystem.repositories.EmployeeRepository;
-import com.Ems.EmployeeManagementSystem.services.EmployeeService;
+import com.Ems.EmployeeManagementSystem.services.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-public class EmployeeServiceTest {
+public class EmployeeServiceImplTest {
 
     @Mock
     private EmployeeRepository employeeRepository;
 
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeServiceImpl;
 
     @BeforeEach
     public void init() {
@@ -39,7 +39,7 @@ public class EmployeeServiceTest {
         mockEmployees.add(new Employee(1L, "Roy", new Department(),true));
         mockEmployees.add(new Employee(1L, "Ashish", new Department(),true));
         when(employeeRepository.findAll()).thenReturn(mockEmployees);
-        List<Employee> allEmployees = employeeService.getAllEmployees();
+        List<Employee> allEmployees = employeeServiceImpl.getAllEmployees();
         assertEquals(3, allEmployees.size());
         verify(employeeRepository, times(1)).findAll();
     }
@@ -49,7 +49,7 @@ public class EmployeeServiceTest {
         Long employeeId = 1L;
         Employee mockEmployee = new Employee(employeeId, "Mukul", new Department(), true);
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(mockEmployee));
-        employeeService.deleteEmployee(employeeId);
+        employeeServiceImpl.deleteEmployee(employeeId);
         assertFalse(mockEmployee.isActiveStatus());
         verify(employeeRepository, times(1)).save(mockEmployee);
     }
