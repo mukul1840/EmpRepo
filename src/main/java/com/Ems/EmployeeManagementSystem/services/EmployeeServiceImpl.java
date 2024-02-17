@@ -20,7 +20,6 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
     private DepartmentRepository departmentRepository;
 
     public List<Employee> getAllEmployees() {
-       // return employeeRepository.findAll();
         return getAllResources();
     }
     public List<Employee> getAllActiveEmployees() {
@@ -35,10 +34,9 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
             Department newDepartment = new Department();
             newDepartment.setName(employee.getDepartment().getName());
             newDepartment.setActiveStatus(true);
-           departmentRepository.save(newDepartment);
+            departmentRepository.save(newDepartment);
             employee.setDepartment(newDepartment);
         }
-        //return employeeRepository.save(employee);
         return  createResource(employee);
     }
 
@@ -59,7 +57,6 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
 
     public String updateEmployee(Long id, Employee updatedEmployee) {
         Employee existingEmployee = employeeRepository.findById(id).orElse(null);
-
         if (existingEmployee != null) {
             BeanUtils.copyProperties(updatedEmployee, existingEmployee, "e_id");
             employeeRepository.save(existingEmployee);

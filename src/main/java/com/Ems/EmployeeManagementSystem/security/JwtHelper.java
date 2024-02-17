@@ -1,5 +1,7 @@
 package com.Ems.EmployeeManagementSystem.security;
 
+import com.Ems.EmployeeManagementSystem.constants.AuthConstants;
+import com.Ems.EmployeeManagementSystem.constants.RestConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,9 +15,7 @@ import java.util.function.Function;
 @Component
 public class JwtHelper {
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -31,7 +31,7 @@ public class JwtHelper {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(AuthConstants.SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -53,8 +53,8 @@ public class JwtHelper {
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + RestConstants.JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS512, AuthConstants.SECRET_KEY).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

@@ -4,6 +4,7 @@ import com.Ems.EmployeeManagementSystem.exceptions.DepartmentNameAlreadyExistsEx
 import com.Ems.EmployeeManagementSystem.exceptions.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +22,10 @@ public class BaseController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public String exceptionHandler() {
+        return "Credentials Invalid !!";
     }
 }
 

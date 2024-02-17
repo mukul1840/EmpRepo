@@ -1,5 +1,6 @@
 package com.Ems.EmployeeManagementSystem.controllers;
 
+import com.Ems.EmployeeManagementSystem.constants.RestConstants;
 import com.Ems.EmployeeManagementSystem.entities.Department;
 import com.Ems.EmployeeManagementSystem.exceptions.DepartmentNameAlreadyExistsException;
 import com.Ems.EmployeeManagementSystem.services.DepartmentServiceImpl;
@@ -11,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping(RestConstants.DEPARTMENT_API_PATH)
 public class DepartmentController extends BaseController {
     @Autowired
     private DepartmentServiceImpl departmentServiceImpl;
 
-    @GetMapping("/getall")
+    @GetMapping(RestConstants.GET_ALL)
     public List<Department> getAllDepartments() {
         return departmentServiceImpl.getAllDepartments();
     }
 
-    @PostMapping("/create")
+    @PostMapping(RestConstants.CREAT)
     public ResponseEntity<String> createDepartment(@RequestBody Department department) {
         try {
             Department createdDepartment = departmentServiceImpl.createDepartment(department);
@@ -31,7 +32,7 @@ public class DepartmentController extends BaseController {
         }
     }
 
-@DeleteMapping("/departments/delete/{id}")
+@DeleteMapping(RestConstants.DEPARTMENT_API_PATH+RestConstants.DELETE+RestConstants.ID)
 public ResponseEntity<String> deleteDepartment(@PathVariable Long id) {
     try {
         departmentServiceImpl.deleteDepartment(id);

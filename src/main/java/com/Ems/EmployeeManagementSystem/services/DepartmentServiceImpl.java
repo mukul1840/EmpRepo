@@ -27,19 +27,15 @@ public class DepartmentServiceImpl extends BaseService<Department> implements De
         if (departmentRepository.findByName(departmentName).isPresent()) {
             throw new DepartmentNameAlreadyExistsException("Department with name " + departmentName + " already exists");
         }
-        //return departmentRepository.save(department);
         return createResource(department);
     }
 
     public void deleteDepartment(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
-
         if (employeeRepository.existsByDepartment_dId(id)) {
             throw new RuntimeException("Department contains employees, cannot be deleted");
         }
-
         departmentRepository.delete(department);
-
     }
 }
