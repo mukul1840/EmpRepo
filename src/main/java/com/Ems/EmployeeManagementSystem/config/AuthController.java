@@ -1,5 +1,6 @@
 package com.Ems.EmployeeManagementSystem.config;
 
+import com.Ems.EmployeeManagementSystem.constants.AuthConstants;
 import com.Ems.EmployeeManagementSystem.jwtModels.JwtRequest;
 import com.Ems.EmployeeManagementSystem.jwtModels.JwtResponse;
 import com.Ems.EmployeeManagementSystem.security.JwtHelper;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import static com.Ems.EmployeeManagementSystem.jwtModels.JwtResponse.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(AuthConstants.AUTH)
 public class AuthController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class AuthController {
     private AuthenticationManager manager;
     @Autowired
     private JwtHelper helper;
-    @PostMapping("/login")
+    @PostMapping(AuthConstants.LOGIN)
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
         this.doAuthenticate(request.getEmail(), request.getPassword());
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
@@ -49,11 +50,6 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public String exceptionHandler() {
-        return "Credentials Invalid !!";
     }
 
 }

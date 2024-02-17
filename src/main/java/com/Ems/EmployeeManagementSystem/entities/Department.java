@@ -19,31 +19,29 @@ public class Department {
 
     @Column(nullable = false)
     private boolean activeStatus;
-    public Department(){
+
+    public Department() {
 
     }
+
     public Department(Long dId, String name, boolean activeStatus) {
         this.dId = dId;
         this.name = name;
         this.activeStatus = activeStatus;
     }
 
-
-    public void setActiveStatus(boolean status){
-        this.activeStatus=status;
+    public void setActiveStatus(boolean status) {
+        this.activeStatus = status;
     }
-    public List<Employee> getEmployees(){
+
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-//    public String getDname() {
-//        return name;
-//    }
 
     public String getName() {
         return name;
     }
-    public  void setName(String name){
-        this.name=name;
-    }
+
+    public void setName(String name) {this.name = name;}
 }

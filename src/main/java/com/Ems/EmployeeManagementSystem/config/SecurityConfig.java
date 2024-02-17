@@ -1,5 +1,7 @@
 package com.Ems.EmployeeManagementSystem.config;
 
+import com.Ems.EmployeeManagementSystem.constants.AuthConstants;
+import com.Ems.EmployeeManagementSystem.constants.SecurityConstants;
 import com.Ems.EmployeeManagementSystem.security.JwtAuthenticationEntryPoint;
 import com.Ems.EmployeeManagementSystem.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +28,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
     http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authorize) -> {
-                authorize.requestMatchers(HttpMethod.POST, "/ems/**").hasRole("ADMIN");
-                authorize.requestMatchers(HttpMethod.PUT, "/ems/**").hasRole("ADMIN");
-                authorize.requestMatchers(HttpMethod.DELETE, "/ems/**").hasRole("ADMIN");
-                authorize.requestMatchers(HttpMethod.GET, "/ems/**").hasAnyRole("ADMIN", "USER");
-                authorize.requestMatchers("/auth/login").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, SecurityConstants.EMP_PATH).hasRole(AuthConstants.ADMIN_ROLE);
+                authorize.requestMatchers(HttpMethod.PUT, SecurityConstants.EMP_PATH).hasRole(AuthConstants.ADMIN_ROLE);
+                authorize.requestMatchers(HttpMethod.DELETE, SecurityConstants.EMP_PATH).hasRole(AuthConstants.ADMIN_ROLE);
+                authorize.requestMatchers(HttpMethod.GET, SecurityConstants.EMP_PATH).hasAnyRole(AuthConstants.ADMIN_ROLE, AuthConstants.USER_ROLE);
+                authorize.requestMatchers(AuthConstants.AUTH+AuthConstants.LOGIN).permitAll();
                 authorize.anyRequest().authenticated();
             }).httpBasic(Customizer.withDefaults());
     http.exceptionHandling(exception -> exception
@@ -38,7 +40,4 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
 }
-
-
-
 }

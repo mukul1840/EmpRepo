@@ -1,5 +1,6 @@
 package com.Ems.EmployeeManagementSystem.config;
 
+import com.Ems.EmployeeManagementSystem.constants.AuthConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,14 +17,14 @@ class AppConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails normalUserDetails = User.builder().
-                username("Mukul@gmail.com")
-                .password(passwordEncoder().encode("Mukul123"))
-                .roles("USER").
+                username(AuthConstants.NORMAL_USER)
+                .password(passwordEncoder().encode(AuthConstants.NORMAL_USER_PASSWORD))
+                .roles(AuthConstants.USER_ROLE).
                 build();
         UserDetails adminUserDetails = User.builder().
-                username("itt@gmail.com")
-                .password(passwordEncoder().encode("itt123"))
-                .roles("ADMIN").
+                username(AuthConstants.ADMIN_USER)
+                .password(passwordEncoder().encode(AuthConstants.ADMIN_USER_PASSWORD))
+                .roles(AuthConstants.ADMIN_ROLE).
                 build();
         return new InMemoryUserDetailsManager(normalUserDetails,adminUserDetails);
     }

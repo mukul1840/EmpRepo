@@ -6,7 +6,6 @@ import lombok.*;
 public class JwtResponse {
     private String jwtToken;
     private String userName;
-
     private String roles;
 
     private JwtResponse(String jwtToken, String userName, String roles) {
